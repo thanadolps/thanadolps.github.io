@@ -1,22 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<html>
+  <head>
+    <head>
+      <title>Getting Started with ml5.js</title>
+      <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+      <link rel="stylesheet" href="./index.css">
+      <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.15.1/dist/tf.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
 
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
-    <title>Document</title>
-</head>
-<body>
+  <body class='w3-container w3-margin'>
     
-    <header class='w3-container w3-blue w3-center'><h1>GitHub IO</h1></header>
+    <button class='w3-btn w3-blue' id='button_load'>Load Model</button>
     
-    <figure class='w3-container w3-center'>
-        <img class='w3-circle' src="./test.gif">
-        <figcaption><h3>Test Image</h3></figcaption>
-    </figure>
+    <!--Slider Block-->
+    <div class='w3-container' id='container_slider_blocks'>
+      
+      <div id='prototype_sliders_block'>
+        <label></label>
+        <input type="range" class='w3-input slider' min="-3" max="3" step="0.01">
+      </div>
 
-</body>
+    </div>
+
+    <button class='w3-btn w3-green' id='button_inference' disabled>Inference</button>
+
+    <img id='image_reconstuct' width="280" height="280" src="">
+
+    <!--hidden canvas middle man for creating base64 embedded image-->
+    <canvas id='canvas_reconstruct' hidden></canvas>
+
+    <script src='./index.js'></script>
+
+  </body>
 </html>
