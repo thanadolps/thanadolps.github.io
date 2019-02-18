@@ -19,11 +19,16 @@ for(let i = 1 ; i < 25 ; i++)
  */
 function decorate_slider_block(label, slider, index)
 {
-    label.innerHTML = `<span>PC${index+1}: </span><span></span>`;
+    const display_number = ("0" + (index + 1)).slice(-2);
+    label.innerHTML = `<span>PC ${display_number}: <b></span>0.00<span></span></b>`;
     slider.oninput = function()
     {
-        label.lastChild.textContent = this.value;
+        label.lastChild.textContent = parseFloat(this.value).toFixed(2);
+        inference();
     }
+    /*slider.onchange = function () {
+        inference();
+    }*/
 }
 
 /**
@@ -43,7 +48,7 @@ function tensor_from_container_slider_block(container_slider_blocks)
 
 // Model Loading and Inference
 
-document.getElementById('button_load').onclick = fetchModel;
+fetchModel();
 document.getElementById('button_inference').onclick = inference;
 
 let image_reconstuct = document.getElementById('image_reconstuct');
@@ -63,7 +68,13 @@ function add_loading_progress()
     if(loading_progress_tracker >= loading_progress_count)
     {
         console.log("Inference Ready");
-        document.getElementById('button_inference').disabled = false;
+        
+        let infer_button = document.getElementById('button_inference');
+        infer_button.disabled = false;
+        infer_button.lastElementChild.textContent = "Ready";
+        image_reconstuct.hidden = false;
+
+        inference();
     }
 }
 
@@ -94,6 +105,7 @@ function fetchModel()
         add_loading_progress();
     })
 }
+
 
 function inference()
 {

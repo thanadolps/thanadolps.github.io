@@ -2,19 +2,21 @@
 <html>
   <head>
     <head>
-      <title>Getting Started with ml5.js</title>
+      <title>MNIST latent space PCA</title>
       <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
       <link rel="stylesheet" href="./index.css">
       <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.15.1/dist/tf.min.js"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     </head>
 
-  <body class='w3-container w3-margin'>
-    
-    <button class='w3-btn w3-blue' id='button_load'>Load Model</button>
+  <body class='w3-container'>
+
+    <h1 class='w3-container w3-blue'>
+      MNIST's Autoencoder Latent Space's Principle Component Interpolation
+    </h1>
     
     <!--Slider Block-->
-    <div class='w3-container' id='container_slider_blocks'>
+    <div class='w3-container w3-card w3-padding' id='container_slider_blocks'>
       
       <div id='prototype_sliders_block'>
         <label></label>
@@ -23,9 +25,11 @@
 
     </div>
 
-    <button class='w3-btn w3-green' id='button_inference' disabled>Inference</button>
+    <button class='w3-btn w3-green w3-bar w3-section' id='button_inference' disabled>Inference <span>(Model Loading)</span></button>
 
-    <img id='image_reconstuct' width="280" height="280" src="">
+    <div class='w3-container w3-center'>
+      <img id='image_reconstuct' width="280" height="280" src="" hidden>
+    </div>
 
     <!--hidden canvas middle man for creating base64 embedded image-->
     <canvas id='canvas_reconstruct' hidden></canvas>
