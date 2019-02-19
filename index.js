@@ -2,6 +2,7 @@
 let container_slider_blocks = document.getElementById("container_slider_blocks");
 let prototype_sliders_block = document.getElementById("prototype_sliders_block")
 
+
 decorate_slider_block(prototype_sliders_block.firstElementChild, prototype_sliders_block.lastElementChild, 0);
 for(let i = 1 ; i < 25 ; i++)
 {
@@ -49,7 +50,6 @@ function tensor_from_container_slider_block(container_slider_blocks)
 // Model Loading and Inference
 
 fetchModel();
-document.getElementById('button_inference').onclick = inference;
 
 let image_reconstuct = document.getElementById('image_reconstuct');
 let canvas_reconstruct = document.getElementById('canvas_reconstruct');
@@ -62,19 +62,50 @@ var pca_component;
 let loading_progress_tracker = 0;
 const loading_progress_count = 3;
 
+/**
+ * called when loading has progressed
+ */
 function add_loading_progress()
 {
     loading_progress_tracker += 1
+
+    // check if loading has finished (tracker > count)
     if(loading_progress_tracker >= loading_progress_count)
     {
         console.log("Inference Ready");
         
+        // enable slider
+        for(slider of document.getElementsByClassName("disabled-slider"))
+        {
+            slider.disabled = false;
+        }
+
+        // change model loading to blur/unblur button
         let infer_button = document.getElementById('button_inference');
+        
         infer_button.disabled = false;
-        infer_button.lastElementChild.textContent = "Ready";
+        infer_button.classList.replace("w3-red", "w3-green");
+        infer_button.textContent = "Aliasing";
+        infer_button.onclick = toggle_blur;
+
         image_reconstuct.hidden = false;
 
         inference();
+    }
+}
+
+function toggle_blur()
+{
+    switch(this.textContent)
+    {
+        case "Aliasing": 
+            this.textContent = "Pixelated"; 
+            image_reconstuct.style.imageRendering = "pixelated";
+            break;
+        case "Pixelated": 
+            this.textContent = "Aliasing";
+            image_reconstuct.style.imageRendering = "auto";
+            break;
     }
 }
 

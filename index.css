@@ -33,3 +33,47 @@ input.slider::-webkit-slider-thumb
     background: #4CAF50;
     cursor: pointer;
 }
+
+#container_slider_blocks
+{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+
+    grid-auto-flow: row;
+}
+
+#container_slider_blocks::before
+{
+    content: none;
+}
+
+#display_grid
+{
+    display:grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+#display_area
+{
+    position:sticky;
+    top:0;
+    right:0;
+    width: 100%;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+#display_area #image_reconstuct
+{
+    width:100%;
+}
+
+#button_inference
+{
+    width: 100%;
+    text-align: center;
+}

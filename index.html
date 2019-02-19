@@ -14,21 +14,23 @@
     <h1 class='w3-container w3-blue'>
       MNIST's Autoencoder Latent Space's Principle Component Interpolation
     </h1>
-    
-    <!--Slider Block-->
-    <div class='w3-container w3-card w3-padding' id='container_slider_blocks'>
-      
-      <div id='prototype_sliders_block'>
-        <label></label>
-        <input type="range" class='w3-input slider' min="-3" max="3" step="0.01">
+
+    <div id='display_grid'>
+      <!--Slider Block-->
+      <div class='w3-container w3-card w3-padding' id='container_slider_blocks'>
+        
+        <div id='prototype_sliders_block' class='w3-padding'>
+          <label></label>
+          <input type="range" class='w3-input slider disabled-slider' min="-3" max="3" step="0.01" disabled>
+        </div>
+
       </div>
 
-    </div>
+      <div class='w3-container w3-card' id='display_area'>
+          <img id='image_reconstuct' src="" hidden>
+          <button class='w3-red w3-padding w3-btn w3-large' id='button_inference' disabled>Model Loading</button>
+      </div>
 
-    <button class='w3-btn w3-green w3-bar w3-section' id='button_inference' disabled>Inference <span>(Model Loading)</span></button>
-
-    <div class='w3-container w3-center'>
-      <img id='image_reconstuct' width="280" height="280" src="" hidden>
     </div>
 
     <!--hidden canvas middle man for creating base64 embedded image-->
