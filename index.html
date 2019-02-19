@@ -11,7 +11,7 @@
 
   <body class='w3-container'>
 
-    <h1 class='w3-container w3-blue'>
+    <h1 class='w3-panel w3-blue w3-padding w3-round'>
       MNIST's Autoencoder Latent Space's Principle Component Interpolation
     </h1>
 
@@ -19,7 +19,7 @@
       <!--Slider Block-->
       <div class='w3-container w3-card w3-padding' id='container_slider_blocks'>
         
-        <div id='prototype_sliders_block' class='w3-padding'>
+        <div id='prototype_sliders_block' class='w3-padding slider_block'>
           <label></label>
           <input type="range" class='w3-input slider disabled-slider' min="-3" max="3" step="0.01" disabled>
         </div>
@@ -28,7 +28,9 @@
 
       <div class='w3-container w3-card' id='display_area'>
           <img id='image_reconstuct' src="" hidden>
-          <button class='w3-red w3-padding w3-btn w3-large' id='button_inference' disabled>Model Loading</button>
+          <button class='w3-blue w3-btn w3-padding w3-large' id='button_random'>Random</button>
+          <!--input type="number" class='w3-input w3-section' id='random_deviation' min="0" required -->
+          <button class='w3-red w3-padding w3-btn w3-margin-top' id='button_inference' disabled>Model Loading</button>
       </div>
 
     </div>
