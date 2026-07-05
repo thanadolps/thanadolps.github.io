@@ -1,0 +1,65 @@
+/*
+ * Design tokens — "The Quiet Workshop"
+ * Paper-and-ink editorial. One accent: othello-board green.
+ * Never add gradients, glass blur, or neon. See AGENTS.md.
+ */
+
+:root {
+	/* -- color: light (paper) -- */
+	--paper: #f6f1e7;
+	--paper-raised: #fdfbf5; /* window/card surfaces */
+	--ink: #1c1a16;
+	--muted: #6b675e;
+	--line: #e0d9c8;
+	--line-strong: #c9c0aa;
+	--accent: #2f6b4f;
+	--accent-soft: #e4ece5; /* chip/hover wash */
+	--accent-contrast: #f6f1e7; /* text on accent */
+	--shadow: 0 2px 6px rgba(28, 26, 22, 0.08), 0 12px 32px rgba(28, 26, 22, 0.12);
+	--grain-opacity: 0.03;
+
+	/* -- type -- */
+	--font-display: 'Fraunces Variable', 'Fraunces', georgia, serif;
+	--font-body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+	--font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', menlo, monospace;
+
+	--text-xs: 0.75rem;
+	--text-sm: 0.875rem;
+	--text-base: 1.0625rem; /* 17px body */
+	--text-lg: 1.1875rem;
+	--text-xl: 1.5rem;
+	--text-2xl: clamp(1.6rem, 3.5vw, 2.2rem); /* section heads */
+	--text-hero: clamp(2.6rem, 7vw, 4.4rem);
+
+	--leading-tight: 1.08;
+	--leading-body: 1.65;
+
+	/* -- rhythm -- */
+	--content-width: 44rem; /* ~70ch body column */
+	--wide-width: 58rem; /* featured rows, playground */
+	--space-section: clamp(5rem, 12vh, 8rem);
+	--space-block: 2.5rem;
+
+	--radius: 6px;
+	--radius-window: 8px;
+
+	/* -- motion -- */
+	--ease-spring: cubic-bezier(0.2, 0.9, 0.25, 1.15);
+	--ease-out: cubic-bezier(0.2, 0.7, 0.3, 1);
+	--dur-fast: 140ms;
+	--dur-med: 240ms;
+}
+
+:root[data-theme='dark'] {
+	--paper: #191813;
+	--paper-raised: #211f19;
+	--ink: #ede7d9;
+	--muted: #9b958a;
+	--line: #2e2c26;
+	--line-strong: #45423a;
+	--accent: #7fb894;
+	--accent-soft: #24352b;
+	--accent-contrast: #12110d;
+	--shadow: 0 2px 6px rgba(0, 0, 0, 0.35), 0 12px 32px rgba(0, 0, 0, 0.45);
+	--grain-opacity: 0.04;
+}
