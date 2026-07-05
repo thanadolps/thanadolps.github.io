@@ -14,7 +14,7 @@ export const projects: Project[] = [
 		tech: ['Unity', 'C#'],
 		award: '1st place · Game Talent Showcase 2023 · Talent of the Year · Best of Technology',
 		links: [{ label: 'Play on itch.io', url: 'https://yonderu.itch.io/anachronic' }],
-		image: '/projects/anachronic-cover.png',
+		image: '/projects/anachronic-cover.webp',
 		imageAlt: 'Anachronic cover art: a character amid mystical ruins'
 	},
 	{
@@ -44,7 +44,7 @@ export const projects: Project[] = [
 		tech: ['Unity', 'C#'],
 		award: 'Top 30 finalist · Game Talent Showcase 2022',
 		links: [{ label: 'Playtest on itch.io', url: 'https://yonderu.itch.io/the-nameless-maid-play-test' }],
-		image: '/projects/nameless-maid-cover.png',
+		image: '/projects/nameless-maid-cover.webp',
 		imageAlt: 'The Nameless Maid cover art: pixel-art maid in a dark hallway'
 	},
 	{
