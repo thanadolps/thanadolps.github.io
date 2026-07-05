@@ -28,7 +28,9 @@
 	<div class="body">
 		{#if project.image}
 			<div class="shot">
-				<img src={project.image} alt={project.imageAlt ?? ''} loading="lazy" />
+				<!-- eager + fixed box: the popup is measured for viewport clamping right
+				     after it opens, so its height must not change when the image arrives -->
+				<img src={project.image} alt={project.imageAlt ?? ''} />
 			</div>
 		{/if}
 
@@ -117,7 +119,9 @@
 	}
 
 	.shot {
-		max-height: 13rem;
+		/* fixed, not max: the popup is position-clamped from a measurement taken
+		   at open; a late-loading image must not grow the window afterwards */
+		height: 13rem;
 		overflow: hidden;
 		border-bottom: 1px solid var(--line);
 		background: var(--paper);
@@ -126,7 +130,7 @@
 	.shot img {
 		display: block;
 		width: 100%;
-		max-height: 13rem;
+		height: 100%;
 		object-fit: cover;
 	}
 

@@ -31,6 +31,8 @@
 
 	let openTimer: ReturnType<typeof setTimeout> | undefined;
 	let closeTimer: ReturnType<typeof setTimeout> | undefined;
+	// Esc restores focus to the button; that focusin must not reopen the window.
+	let suppressOpen = false;
 
 	// --- media queries: branch desktop hover-window vs touch accordion ---
 	$effect(() => {
@@ -71,6 +73,7 @@
 
 	// --- keyboard / focus ---
 	function onFocusIn() {
+		if (suppressOpen) return;
 		if (isDesktop) openWindow(id);
 	}
 
@@ -97,7 +100,9 @@
 		const onKey = (e: KeyboardEvent) => {
 			if (e.key === 'Escape') {
 				closeWindow(id);
+				suppressOpen = true;
 				buttonEl?.focus();
+				queueMicrotask(() => (suppressOpen = false));
 			}
 		};
 		window.addEventListener('keydown', onKey);
@@ -192,7 +197,7 @@
 			class="name"
 			bind:this={buttonEl}
 			aria-expanded={open}
-			aria-controls={contentId}
+			aria-controls={open ? contentId : undefined}
 			onclick={toggle}
 		>
 			{project.name}
@@ -384,6 +389,13 @@
 			grid-template-columns: 1fr;
 			gap: 0.5rem;
 			padding: 1.5rem 0;
+			/* no hover wash on touch — reclaim the gutter the bleed margin removes */
+			margin-inline: 0;
+		}
+
+		.row::before {
+			left: 0;
+			right: 0;
 		}
 
 		.index {

@@ -216,7 +216,13 @@
 		</div>
 
 		{#if showBubble}
-			<a class="bubble mono" href="#playground" style="left: {bubbleLeft}px;" onclick={dismissBubble}>
+			<a
+				class="bubble mono"
+				href="#playground"
+				tabindex="-1"
+				style="left: {bubbleLeft}px;"
+				onclick={dismissBubble}
+			>
 				play a real game? ↓
 			</a>
 		{/if}
