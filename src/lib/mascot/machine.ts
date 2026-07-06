@@ -1,9 +1,10 @@
 /**
- * Rev — pure, rendering-free state machine for the othello-disc mascot.
+ * Rev — pure, rendering-free state machine for the little crab mascot.
  *
  * No DOM access lives here so the transitions can be unit-tested. The renderer
- * (Rev.svelte) owns rAF, cursor tracking and sprite drawing; it feeds an `Env`
- * snapshot into `tick` each frame and reads the returned data back out.
+ * (Rev.svelte) owns rAF, cursor tracking, pupil eye-tracking and sprite drawing;
+ * it feeds an `Env` snapshot into `tick` each frame and reads the returned data
+ * back out.
  *
  * Coordinate space: `x` is pixels from the left along the viewport bottom edge.
  * `env.cursorX` shares that space; `env.cursorY` is pixels ABOVE the bottom edge
@@ -13,17 +14,17 @@
  * — cheap for a per-frame loop and still deterministic given `opts.rng`.
  */
 
-export type MascotState = 'wander' | 'idle' | 'follow' | 'hop' | 'sleep' | 'sprint' | 'sit';
-export type MascotColor = 'black' | 'white';
+export type MascotState = 'wander' | 'idle' | 'follow' | 'hop' | 'wave' | 'sleep' | 'sprint' | 'sit';
 
 export interface MascotData {
 	state: MascotState;
-	/** State to return to after a one-shot 'hop'. */
+	/** State to return to after a one-shot 'hop' / 'wave'. */
 	prev: MascotState;
 	x: number;
 	facing: -1 | 1;
-	color: MascotColor;
-	flipCount: number;
+
+	/** Clicks so far; the 5th kicks off the sprint-to-playground payoff. */
+	clickCount: number;
 
 	// timers (ms)
 	stateTime: number;
@@ -35,11 +36,14 @@ export interface MascotData {
 	nextDirChange: number;
 	idleDuration: number;
 
-	// hop / sprint
+	// hop (both the affection hop and its shared airborne timing) / sprint
 	hopTime: number;
+	hopStartX: number;
 	targetX: number | null;
+	/** Countdown to the next chance at an affection hop toward the cursor. */
+	nextHopCheck: number;
 
-	/** One-shot: set true the frame Rev decides to sprint after the 5th flip. */
+	/** One-shot: set true the frame Rev decides to sprint after the 5th click. */
 	payoff: boolean;
 
 	rng: () => number;
@@ -60,7 +64,6 @@ export interface Env {
 export interface CreateOpts {
 	x?: number;
 	viewportWidth?: number;
-	color?: MascotColor;
 	/** Start in 'sit' (reduced-motion / touch). */
 	sit?: boolean;
 	rng?: () => number;
@@ -74,10 +77,19 @@ const FOLLOW_MAX = 90; // px/s, cap while following
 const SPRINT_SPEED = WALK_SPEED * 3; // px/s
 const SLEEP_AFTER = 25_000; // ms of no interaction
 const CURSOR_LOST = 1_500; // ms of cursor away before follow -> wander
-const HOP_DURATION = 450; // ms one-shot
+const HOP_DURATION = 450; // ms one-shot arc
+const WAVE_DURATION = 600; // ms one-shot claw wave
 const SPRINT_SETTLE = 4; // px, close enough to the sprint target
 const EDGE_MIN = 8; // px, left clamp
 const EDGE_MARGIN = 36; // px, right clamp keeps clear of footer links
+
+// affection hop: a single scamper toward the cursor when it lingers nearby
+const HOP_MIN_DIST = 140; // px, cursor must be at least this far horizontally
+const HOP_MAX_DIST = 420; // px, ...and no farther than this
+const HOP_DISTANCE = 50; // px, how far the hop carries Rev
+const HOP_RETRY = 2000; // ms, re-check soon when conditions weren't met
+
+export { HOP_DURATION, WAVE_DURATION };
 
 function clampX(x: number, viewportWidth: number): number {
 	const max = Math.max(EDGE_MIN, viewportWidth - EDGE_MARGIN);
@@ -101,10 +113,22 @@ function idleInterval(rng: () => number): number {
 	return 3000 + rng() * 5000;
 }
 
+/** 8000–20000ms between affection-hop attempts. */
+function hopInterval(rng: () => number): number {
+	return 8000 + rng() * 12000;
+}
+
 function enter(state: MascotData, next: MascotState): void {
 	state.prev = state.state;
 	state.state = next;
 	state.stateTime = 0;
+}
+
+/** Where a one-shot (hop/wave) returns to — never back into a transient/asleep pose. */
+function restingState(prev: MascotState): MascotState {
+	return prev === 'hop' || prev === 'wave' || prev === 'sleep' || prev === 'sprint'
+		? 'wander'
+		: prev;
 }
 
 export function createMascot(opts: CreateOpts = {}): MascotData {
@@ -115,8 +139,7 @@ export function createMascot(opts: CreateOpts = {}): MascotData {
 		prev: 'wander',
 		x: clampX(opts.x ?? viewportWidth * 0.15, viewportWidth),
 		facing: 1,
-		color: opts.color ?? 'black',
-		flipCount: 0,
+		clickCount: 0,
 		stateTime: 0,
 		timeSinceInteraction: 0,
 		timeSinceCursor: 0,
@@ -124,7 +147,9 @@ export function createMascot(opts: CreateOpts = {}): MascotData {
 		nextDirChange: nextDirInterval(rng),
 		idleDuration: idleInterval(rng),
 		hopTime: 0,
+		hopStartX: 0,
 		targetX: null,
+		nextHopCheck: hopInterval(rng),
 		payoff: false,
 		rng
 	};
@@ -137,6 +162,35 @@ function moveToward(state: MascotData, target: number, speed: number, dtSec: num
 	const step = Math.sign(dx) * Math.min(Math.abs(dx), speed * dtSec);
 	state.x += step;
 	state.facing = step < 0 ? -1 : 1;
+	return false;
+}
+
+/** Begin a single arc hop ~HOP_DISTANCE toward the cursor's x. */
+function startHop(state: MascotData, env: Env): void {
+	const dir = (env.cursorX ?? state.x) >= state.x ? 1 : -1;
+	state.hopStartX = state.x;
+	state.targetX = clampX(state.x + dir * HOP_DISTANCE, env.viewportWidth);
+	state.hopTime = 0;
+	state.facing = dir;
+	state.nextHopCheck = hopInterval(state.rng);
+	enter(state, 'hop');
+}
+
+/**
+ * From wander/idle only: occasionally hop toward a cursor that's lingering
+ * 140–420px away. Ticks the countdown and returns true when a hop was started.
+ */
+function tryHop(state: MascotData, env: Env, dt: number): boolean {
+	state.nextHopCheck -= dt;
+	if (state.nextHopCheck > 0) return false;
+	if (env.cursorX != null) {
+		const hdist = Math.abs(env.cursorX - state.x);
+		if (hdist >= HOP_MIN_DIST && hdist <= HOP_MAX_DIST) {
+			startHop(state, env);
+			return true;
+		}
+	}
+	state.nextHopCheck = HOP_RETRY;
 	return false;
 }
 
@@ -164,13 +218,23 @@ export function tick(state: MascotData, dt: number, env: Env): MascotData {
 			if (cursorNear) enter(state, 'follow');
 			break;
 
-		case 'hop':
+		case 'wave':
+			if (state.stateTime >= WAVE_DURATION) enter(state, restingState(state.prev));
+			break;
+
+		case 'hop': {
 			state.hopTime += dt;
+			if (state.targetX != null) {
+				const p = Math.min(state.hopTime / HOP_DURATION, 1);
+				state.x = state.hopStartX + (state.targetX - state.hopStartX) * p;
+			}
 			if (state.hopTime >= HOP_DURATION) {
-				const back = state.prev === 'hop' || state.prev === 'sleep' ? 'wander' : state.prev;
-				enter(state, back);
+				if (state.targetX != null) state.x = state.targetX;
+				state.targetX = null;
+				enter(state, restingState(state.prev));
 			}
 			break;
+		}
 
 		case 'sprint': {
 			const arrived = moveToward(
@@ -200,6 +264,8 @@ export function tick(state: MascotData, dt: number, env: Env): MascotData {
 				enter(state, 'follow');
 			} else if (state.timeSinceInteraction > SLEEP_AFTER) {
 				enter(state, 'sleep');
+			} else if (tryHop(state, env, dt)) {
+				// scampered off toward the cursor
 			} else if (state.stateTime >= state.idleDuration) {
 				state.wanderDir = state.rng() < 0.5 ? -1 : 1;
 				state.nextDirChange = nextDirInterval(state.rng);
@@ -213,6 +279,8 @@ export function tick(state: MascotData, dt: number, env: Env): MascotData {
 				enter(state, 'follow');
 			} else if (state.timeSinceInteraction > SLEEP_AFTER) {
 				enter(state, 'sleep');
+			} else if (tryHop(state, env, dt)) {
+				// scampered off toward the cursor
 			} else {
 				state.x += state.wanderDir * WALK_SPEED * dtSec;
 				state.facing = state.wanderDir;
@@ -243,16 +311,16 @@ export function pointerNear(state: MascotData): MascotData {
 }
 
 /**
- * Click: flip colour with a hop, count it, and on the exact 5th flip kick off
+ * Click: raise a claw in a wave, count it, and on the exact 5th click kick off
  * the sprint-to-playground payoff. In 'sit' mode (reduced-motion / touch) the
- * flip and count still happen and the payoff still fires, but Rev stays put.
+ * count still happens and the payoff still fires, but Rev stays put — the
+ * renderer decides whether to animate the wave (skipped under reduced-motion).
  */
 export function click(state: MascotData, env: Env): MascotData {
-	state.color = state.color === 'black' ? 'white' : 'black';
-	state.flipCount += 1;
+	state.clickCount += 1;
 	state.timeSinceInteraction = 0;
 
-	const fifth = state.flipCount === 5;
+	const fifth = state.clickCount === 5;
 
 	if (state.state === 'sit') {
 		if (fifth) state.payoff = true;
@@ -263,9 +331,9 @@ export function click(state: MascotData, env: Env): MascotData {
 		state.targetX = clampX(env.playgroundX, env.viewportWidth);
 		state.payoff = true;
 		enter(state, 'sprint');
-	} else {
-		state.hopTime = 0;
-		enter(state, 'hop');
+	} else if (state.state !== 'sprint') {
+		// wave greets from anywhere non-critical; it returns to a resting state.
+		enter(state, 'wave');
 	}
 	return state;
 }

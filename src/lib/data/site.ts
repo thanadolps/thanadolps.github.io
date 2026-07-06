@@ -29,15 +29,15 @@ export const site = {
 
 	sections: {
 		projects: { number: '01', title: 'Selected work' },
-		playground: {
-			number: '02',
-			title: 'Playground',
-			lede: 'Old experiments, still running. Both shipped on the first version of this site and moved in with the furniture.'
-		},
 		craft: {
-			number: '03',
+			number: '02',
 			title: 'Craft shelf',
 			lede: 'Smaller things, built mostly for myself.'
+		},
+		playground: {
+			number: '03',
+			title: 'Playground',
+			lede: 'Two experiments from my student years that run right here in the page.'
 		},
 		honors: { number: '04', title: 'Papers & prizes' },
 		experience: { number: '05', title: 'Experience' },
@@ -49,5 +49,5 @@ export const site = {
 	},
 
 	colophon:
-		'Built with SvelteKit, set in Fraunces and IBM Plex. The mascot is an othello disc. No trackers.'
+		'Built with SvelteKit, set in Fraunces and IBM Plex. The crab in the corner is called Rev. No trackers.'
 } as const;

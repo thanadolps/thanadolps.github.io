@@ -53,7 +53,7 @@ export const craft: CraftItem[] = [
 	{
 		name: 'raytracer',
 		lang: 'Rust',
-		blurb: 'The obligatory Rust raytracer. Spheres, shadows, and a weekend that disappeared.',
+		blurb: 'The obligatory Rust raytracer. It ate a weekend.',
 		url: 'https://github.com/thanadolps/raytracer'
 	}
 ];

@@ -5,7 +5,7 @@ export const demos: PlaygroundDemo[] = [
 		id: 'othello',
 		name: 'Othello, in Rust, in your browser',
 		blurb:
-			'An othello engine with an AI opponent, written in Rust in 2020 and compiled to WebAssembly. Playable exactly as it shipped back then.',
+			'An othello engine with an AI opponent, written in Rust in 2020 and compiled to WebAssembly. I have not touched it since, and it plays exactly as it did then.',
 		src: '/othello-wasm/',
 		poster: '/legacy/Card Image/othello.PNG',
 		sourceUrl: 'https://github.com/thanadolps/othello-wasm',

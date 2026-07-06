@@ -15,6 +15,8 @@
 	--accent: #2f6b4f;
 	--accent-soft: #e4ece5; /* chip/hover wash */
 	--accent-contrast: #f6f1e7; /* text on accent */
+	--mascot: #a85b38; /* Rev the crab — muted terracotta, tertiary only */
+	--mascot-deep: #7e4128;
 	--shadow: 0 2px 6px rgba(28, 26, 22, 0.08), 0 12px 32px rgba(28, 26, 22, 0.12);
 	--grain-opacity: 0.03;
 
@@ -61,6 +63,8 @@
 	--accent: #7fb894;
 	--accent-soft: #24352b;
 	--accent-contrast: #12110d;
+	--mascot: #c97a54;
+	--mascot-deep: #9c5a3c;
 	--shadow: 0 2px 6px rgba(0, 0, 0, 0.35), 0 12px 32px rgba(0, 0, 0, 0.45);
 	--grain-opacity: 0.04;
 }

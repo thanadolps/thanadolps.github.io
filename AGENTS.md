@@ -65,4 +65,4 @@ breaking change.
 1. `bun run check` and `bun run build` pass
 2. Page renders in both themes, 360px and 1440px, no horizontal scroll
 3. New copy passes the slop blocklist above
-4. Rev still wanders, flips on click, and offers the othello game on the 5th flip
+4. Rev (the pixel crab) still wanders, eye-tracks the cursor, waves on click, and offers the othello game on the 5th click

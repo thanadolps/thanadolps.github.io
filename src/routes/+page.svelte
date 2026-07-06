@@ -41,8 +41,8 @@
 		</div>
 	</section>
 
-	<Playground />
 	<CraftShelf />
+	<Playground />
 	<Honors />
 	<ExperienceTimeline />
 	<Footer />
