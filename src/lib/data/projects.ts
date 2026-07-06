@@ -30,6 +30,10 @@ export const projects: Project[] = [
 		],
 		tech: ['Go', 'PostgreSQL', 'OpenAPI', 'sqlc', 'MinIO', 'Testcontainers'],
 		links: [{ label: 'Internal system', note: 'delivered May 2024, no public link' }]
+		// TODO(visual): hover window has no image. Real screenshots are off the table
+		// (handed over, internal). Plan: small architecture diagram in the site's
+		// paper-and-ink style — OpenAPI spec + SQL → oapi-codegen/sqlc → Go service →
+		// Postgres/MinIO, hairlines + mono labels. Asset not ready yet.
 	},
 	{
 		id: 'nameless-maid',
@@ -62,6 +66,8 @@ export const projects: Project[] = [
 			{ label: 'Live demo', note: 'being brought back online' },
 			{ label: 'Source', url: 'https://github.com/2110336-2565-2/sec33-group2-wigglepaw' }
 		]
+		// TODO(visual): add a UI screenshot once the live demo is resurrected —
+		// grab the landing/search page at 1200px, convert to webp ≤150KB, static/projects/.
 	},
 	{
 		id: 'triage',
@@ -75,5 +81,8 @@ export const projects: Project[] = [
 		],
 		tech: ['SvelteKit', 'TypeScript', 'PostgreSQL', 'Docker'],
 		links: [{ label: 'Private client work', note: 'no public link' }]
+		// TODO(visual): no client screenshots allowed. Plan: paper-and-ink flow diagram —
+		// KPHIS (mocked in dev) → triage backend → records/processing → handover artifacts.
+		// Alternatively a redacted/stylized UI vignette if Thanadol approves one. Not ready yet.
 	}
 ];

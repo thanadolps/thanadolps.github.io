@@ -3,6 +3,12 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
+	define: {
+		// baked in at build time; shown as the footer "updated" stamp
+		__BUILD_DATE__: JSON.stringify(
+			new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+		)
+	},
 	plugins: [
 		sveltekit({
 			compilerOptions: {

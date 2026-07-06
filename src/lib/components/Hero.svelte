@@ -10,6 +10,7 @@
 	{#each site.hero.intro as paragraph (paragraph)}
 		<p class="hero-intro">{paragraph}</p>
 	{/each}
+	<p class="hero-proof mono">{site.hero.proof.join(' · ')}</p>
 	<a class="hero-scroll mono" href="#projects">↓ 01 · selected work</a>
 </section>
 
@@ -51,6 +52,14 @@
 		color: var(--muted);
 		max-width: 38rem;
 		margin: 0;
+	}
+
+	.hero-proof {
+		color: var(--accent);
+		font-size: var(--text-xs);
+		letter-spacing: 0.02em;
+		max-width: 38rem;
+		margin: 0.25rem 0 0;
 	}
 
 	.hero-scroll {

@@ -8,6 +8,9 @@ declare global {
 		// interface PageState {}
 		// interface Platform {}
 	}
+
+	/** Build-time constant injected by vite.config.ts `define` (footer "updated" stamp). */
+	const __BUILD_DATE__: string;
 }
 
 export {};

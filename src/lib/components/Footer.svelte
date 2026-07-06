@@ -17,7 +17,7 @@
 		<li><a class="mono" href={site.resumePath} download>Résumé (PDF)</a></li>
 	</ul>
 	<div class="colophon">
-		<p class="mono colophon-text">{site.colophon}</p>
+		<p class="mono colophon-text">{site.colophon} Updated {__BUILD_DATE__}.</p>
 		<a class="mono colophon-link" href={site.legacySitePath}>the 2019 version of this site</a>
 	</div>
 </footer>
