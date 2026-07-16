@@ -5,7 +5,7 @@
 </script>
 
 <section id="honors" class="container">
-	<SectionHeader number={site.sections.honors.number} title={site.sections.honors.title} />
+	<SectionHeader title={site.sections.honors.title} />
 	<ul class="honors-list">
 		{#each awards as award (award.title)}
 			<li class="honors-row">

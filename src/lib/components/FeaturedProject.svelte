@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 	import { slide } from 'svelte/transition';
-	import { backOut } from 'svelte/easing';
+	import { quintOut } from 'svelte/easing';
 	import type { Project } from '$lib/data/types';
 	import ProjectWindow from './ProjectWindow.svelte';
 	import { windowState, openWindow, closeWindow } from './featured-state.svelte';
@@ -160,12 +160,12 @@
 		};
 	});
 
-	// scale(0.96)->1 + translateY(4px)->0 + fade, spring easing; instant if reduced-motion
+	// scale(0.96)->1 + translateY(4px)->0 + fade, no overshoot; instant if reduced-motion
 	function popIn(_node: HTMLElement) {
 		if (reducedMotion) return { duration: 0 };
 		return {
 			duration: 240,
-			easing: backOut,
+			easing: quintOut,
 			css: (t: number) =>
 				`opacity:${t}; transform: translateY(${(1 - t) * 4}px) scale(${0.96 + t * 0.04});`
 		};
@@ -218,7 +218,7 @@
 						>
 					{:else}
 						<span class="mono link-muted">
-							{link.note ? `${link.label} — ${link.note}` : link.label}
+							{link.note ? `${link.label} · ${link.note}` : link.label}
 						</span>
 					{/if}
 				</li>
@@ -237,7 +237,7 @@
 			onpointerenter={cancelClose}
 			transition:popIn
 		>
-			<ProjectWindow {project} {titleId} />
+			<ProjectWindow {project} {titleId} escHint />
 		</div>
 	{/if}
 </div>
@@ -307,9 +307,11 @@
 	.name {
 		display: inline-block;
 		margin: 0 0 0.4rem;
-		padding: 0;
+		padding: 0 0 2px;
 		border: none;
 		background: none;
+		/* the dotted rule is the "this opens" affordance — see critique H6 */
+		border-bottom: 1px dotted var(--line-strong);
 		font-family: var(--font-display);
 		font-size: var(--text-title);
 		font-weight: 500;
@@ -317,10 +319,15 @@
 		color: var(--ink);
 		text-align: left;
 		cursor: pointer;
+		transition:
+			color var(--dur-fast) var(--ease-out),
+			border-color var(--dur-fast) var(--ease-out);
 	}
 
-	.name:hover {
+	.name:hover,
+	.row.open .name {
 		color: var(--accent);
+		border-bottom-color: var(--accent);
 	}
 
 	.name:focus-visible {
@@ -331,6 +338,7 @@
 
 	.tagline {
 		margin: 0;
+		max-width: 38rem; /* keep wrapped lines under ~75ch inside the wide column */
 		font-size: var(--text-base);
 		line-height: var(--leading-body);
 		color: var(--muted);

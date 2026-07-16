@@ -5,9 +5,11 @@
 		project: Project;
 		/** id applied to the mono title, so a parent region can aria-labelledby it. */
 		titleId?: string;
+		/** show the "esc" affordance in the titlebar (desktop popup only). */
+		escHint?: boolean;
 	}
 
-	let { project, titleId }: Props = $props();
+	let { project, titleId, escHint = false }: Props = $props();
 </script>
 
 <!--
@@ -23,6 +25,9 @@
 			<span class="dot"></span>
 		</span>
 		<span class="title mono" id={titleId}>{project.window}</span>
+		{#if escHint}
+			<span class="esc mono" aria-hidden="true">esc</span>
+		{/if}
 	</div>
 
 	<div class="body">
@@ -62,7 +67,7 @@
 								rel="noopener noreferrer">{link.label} ↗</a
 							>
 						{:else}
-							<span class="mono link-muted">{link.label}{#if link.note} — {link.note}{/if}</span>
+							<span class="mono link-muted">{link.label}{#if link.note} · {link.note}{/if}</span>
 						{/if}
 					</li>
 				{/each}
@@ -116,6 +121,16 @@
 		font-size: var(--text-xs);
 		color: var(--muted);
 		letter-spacing: 0.01em;
+	}
+
+	.esc {
+		margin-left: auto;
+		font-size: var(--text-xs);
+		color: var(--muted);
+		border: 1px solid var(--line-strong);
+		border-radius: 4px;
+		padding: 0 5px;
+		line-height: 1.4;
 	}
 
 	.shot {

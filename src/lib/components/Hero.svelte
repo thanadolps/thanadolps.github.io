@@ -11,7 +11,7 @@
 		<p class="hero-intro">{paragraph}</p>
 	{/each}
 	<p class="hero-proof mono">{site.hero.proof.join(' · ')}</p>
-	<a class="hero-scroll mono" href="#projects">↓ 01 · selected work</a>
+	<a class="hero-scroll mono" href="#projects">↓ selected work</a>
 </section>
 
 <style>
@@ -72,6 +72,14 @@
 	.hero-scroll:hover,
 	.hero-scroll:focus-visible {
 		color: var(--accent);
+	}
+
+	/* On small screens 78vh leaves a long dead scroll before the first section. */
+	@media (max-width: 640px) {
+		.hero {
+			min-height: 0;
+			padding-block: 4rem 3.5rem;
+		}
 	}
 
 	@media (prefers-reduced-motion: no-preference) {

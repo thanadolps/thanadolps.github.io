@@ -1,7 +1,18 @@
 <script lang="ts">
 	import '../app.css';
+	import { browser } from '$app/environment';
 
 	let { children } = $props();
+
+	// A note for the visitors who open devtools — they're the secondary audience.
+	if (browser) {
+		console.log(
+			'%c🦀 < you found the service hatch.\n' +
+				'Source: https://github.com/thanadolps/thanadolps.github.io\n' +
+				'No trackers in here, just the crab.',
+			'font-family: monospace'
+		);
+	}
 </script>
 
 <a class="skip-link mono" href="#top">Skip to content</a>

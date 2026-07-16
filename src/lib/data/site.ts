@@ -34,20 +34,21 @@ export const site = {
 	},
 
 	sections: {
-		projects: { number: '01', title: 'Selected work' },
+		projects: {
+			title: 'Selected work',
+			lede: 'Five projects. Open a name and it gets its own window.'
+		},
 		craft: {
-			number: '02',
 			title: 'Craft shelf',
 			lede: 'Smaller things, built mostly for myself.'
 		},
 		playground: {
-			number: '03',
 			title: 'Playground',
 			lede: 'Two experiments from my student years that run right here in the page.'
 		},
-		honors: { number: '04', title: 'Papers & prizes' },
-		experience: { number: '05', title: 'Experience' },
-		contact: { number: '06', title: 'Contact' }
+		honors: { title: 'Papers & prizes' },
+		experience: { title: 'Experience' },
+		contact: { title: 'Contact' }
 	},
 
 	contact: {

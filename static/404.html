@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="robots" content="noindex" />
+		<title>404 — Thanadol Chitthamlerd</title>
+		<link rel="icon" href="/favicon.svg" />
+		<script>
+			(function () {
+				try {
+					var stored = localStorage.getItem('theme');
+					var theme =
+						stored === 'dark' || stored === 'light'
+							? stored
+							: window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+								? 'dark'
+								: 'light';
+					document.documentElement.dataset.theme = theme;
+				} catch (e) {}
+			})();
+		</script>
+		<style>
+			/* Standalone page: system fallbacks only, no font payload for an error. */
+			:root {
+				--paper: #f6f1e7;
+				--ink: #1c1a16;
+				--muted: #6b675e;
+				--line: #e0d9c8;
+				--accent: #2f6b4f;
+				--mascot: #a85b38;
+			}
+			:root[data-theme='dark'] {
+				--paper: #191813;
+				--ink: #ede7d9;
+				--muted: #9b958a;
+				--line: #2e2c26;
+				--accent: #7fb894;
+				--mascot: #c97a54;
+			}
+			* {
+				box-sizing: border-box;
+			}
+			body {
+				margin: 0;
+				min-height: 100vh;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background: var(--paper);
+				color: var(--ink);
+				font-family: system-ui, -apple-system, sans-serif;
+				line-height: 1.65;
+			}
+			main {
+				max-width: 34rem;
+				padding: 2rem 1.25rem;
+			}
+			.code {
+				font-family: ui-monospace, 'SFMono-Regular', menlo, monospace;
+				font-size: 0.875rem;
+				color: var(--accent);
+				margin: 0 0 0.5rem;
+			}
+			h1 {
+				font-family: georgia, serif;
+				font-size: clamp(1.8rem, 5vw, 2.4rem);
+				line-height: 1.1;
+				margin: 0 0 1rem;
+			}
+			p {
+				color: var(--muted);
+				margin: 0 0 1.5rem;
+			}
+			.links {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 0.5rem 1.5rem;
+				list-style: none;
+				margin: 0;
+				padding: 1.25rem 0 0;
+				border-top: 1px solid var(--line);
+				font-family: ui-monospace, 'SFMono-Regular', menlo, monospace;
+				font-size: 0.875rem;
+			}
+			a {
+				color: var(--accent);
+			}
+			/* Rev, pixel by pixel — shadow of the site's corner crab. */
+			.crab {
+				display: block;
+				width: 64px;
+				height: 44px;
+				margin: 0 0 1.5rem;
+				image-rendering: pixelated;
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<svg class="crab" viewBox="0 0 16 11" aria-hidden="true">
+				<g fill="var(--mascot)">
+					<rect x="4" y="3" width="8" height="5" />
+					<rect x="3" y="4" width="10" height="3" />
+					<rect x="2" y="1" width="2" height="2" />
+					<rect x="12" y="1" width="2" height="2" />
+					<rect x="1" y="2" width="2" height="2" />
+					<rect x="13" y="2" width="2" height="2" />
+					<rect x="3" y="8" width="1" height="2" />
+					<rect x="5" y="8" width="1" height="3" />
+					<rect x="10" y="8" width="1" height="3" />
+					<rect x="12" y="8" width="1" height="2" />
+				</g>
+				<rect x="6" y="4" width="1" height="1" fill="var(--paper)" />
+				<rect x="9" y="4" width="1" height="1" fill="var(--paper)" />
+			</svg>
+			<p class="code">404 · file not found</p>
+			<h1>Not on the shelf.</h1>
+			<p>
+				This page doesn't exist here. It may have moved when the site was rebuilt in 2026. The
+				old pages still work, if that's what you came for.
+			</p>
+			<ul class="links">
+				<li><a href="/">home</a></li>
+				<li><a href="/legacy/index.html">the 2019 site</a></li>
+				<li><a href="mailto:thanadolps@gmail.com">tell me it's broken</a></li>
+			</ul>
+		</main>
+	</body>
+</html>

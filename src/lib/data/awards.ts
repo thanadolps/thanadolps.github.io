@@ -9,13 +9,13 @@ export const awards: Award[] = [
 	},
 	{
 		year: '2023',
-		title: 'Game Talent Showcase — 1st place, Talent of the Year, Best of Technology',
+		title: 'Game Talent Showcase · 1st place, Talent of the Year, Best of Technology',
 		detail: 'All three for Anachronic.',
 		url: 'https://yonderu.itch.io/anachronic'
 	},
 	{
 		year: '2023',
-		title: 'Solar CC — 3rd place',
+		title: 'Solar CC · 3rd place',
 		detail: 'Prototype carbon-offset web app for individuals and retail, in a national competition.'
 	},
 	{
@@ -25,13 +25,13 @@ export const awards: Award[] = [
 	},
 	{
 		year: '2023',
-		title: 'TraffyFondue image classifier — top 5',
+		title: 'TraffyFondue image classifier · top 5',
 		detail: 'Leaderboard finish on a real-world Bangkok city-complaint dataset.',
 		url: 'https://www.kaggle.com/competitions/2110446-data-science-and-data-engineering-2023'
 	},
 	{
 		year: '2017',
-		title: 'SILLAPA web application — gold, Bangkok region',
+		title: 'SILLAPA web application · gold, Bangkok region',
 		detail: '1st in Bangkok, student paired web development competition.'
 	}
 ];

@@ -5,11 +5,7 @@
 </script>
 
 <section id="craft" class="container">
-	<SectionHeader
-		number={site.sections.craft.number}
-		title={site.sections.craft.title}
-		lede={site.sections.craft.lede}
-	/>
+	<SectionHeader title={site.sections.craft.title} lede={site.sections.craft.lede} />
 	<ul class="craft-list">
 		{#each craft as item (item.name)}
 			<li class="craft-row">

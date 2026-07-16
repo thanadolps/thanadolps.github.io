@@ -5,9 +5,17 @@
 	const links = [
 		{ label: 'Work', href: '#projects' },
 		{ label: 'Playground', href: '#playground' },
+		{ label: 'Honors', href: '#honors' },
 		{ label: 'Experience', href: '#experience' },
 		{ label: 'Contact', href: '#contact' }
 	];
+
+	let menuEl: HTMLDetailsElement | undefined = $state();
+
+	// The disclosure panel should not stay open after a jump.
+	function closeMenu() {
+		if (menuEl) menuEl.open = false;
+	}
 </script>
 
 <nav>
@@ -19,6 +27,14 @@
 					<li><a class="mono" href={link.href}>{link.label}</a></li>
 				{/each}
 			</ul>
+			<details class="nav-menu" bind:this={menuEl}>
+				<summary class="mono">sections</summary>
+				<ul class="nav-menu-panel">
+					{#each links as link (link.href)}
+						<li><a class="mono" href={link.href} onclick={closeMenu}>{link.label}</a></li>
+					{/each}
+				</ul>
+			</details>
 			<a class="mono nav-resume" href={site.resumePath} download>Résumé</a>
 			<ThemeToggle />
 		</div>
@@ -75,9 +91,67 @@
 		color: var(--accent);
 	}
 
+	/* -- small-screen disclosure menu (replaces the inline link row) -- */
+	.nav-menu {
+		display: none;
+		position: relative;
+	}
+
+	.nav-menu summary {
+		list-style: none;
+		cursor: pointer;
+		color: var(--ink);
+		font-size: var(--text-sm);
+	}
+
+	.nav-menu summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.nav-menu summary::after {
+		content: ' ▾';
+		color: var(--muted);
+	}
+
+	.nav-menu[open] summary,
+	.nav-menu summary:hover {
+		color: var(--accent);
+	}
+
+	.nav-menu-panel {
+		position: absolute;
+		right: -0.75rem;
+		top: calc(100% + 0.85rem);
+		min-width: 10rem;
+		margin: 0;
+		padding: 0.4rem 0;
+		list-style: none;
+		background: var(--paper-raised);
+		border: 1px solid var(--line-strong);
+		border-radius: var(--radius);
+		box-shadow: var(--shadow);
+	}
+
+	.nav-menu-panel a {
+		display: block;
+		padding: 0.5rem 1rem;
+		text-decoration: none;
+		color: var(--ink);
+	}
+
+	.nav-menu-panel a:hover,
+	.nav-menu-panel a:focus-visible {
+		color: var(--accent);
+		background: var(--accent-soft);
+	}
+
 	@media (max-width: 640px) {
 		.nav-links {
 			display: none;
+		}
+
+		.nav-menu {
+			display: block;
 		}
 
 		.nav-right {

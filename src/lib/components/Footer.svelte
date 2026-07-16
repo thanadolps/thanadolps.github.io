@@ -4,11 +4,7 @@
 </script>
 
 <footer id="contact" class="container">
-	<SectionHeader
-		number={site.sections.contact.number}
-		title={site.sections.contact.title}
-		lede={site.contact.lede}
-	/>
+	<SectionHeader title={site.sections.contact.title} lede={site.contact.lede} />
 	<ul class="contact-links">
 		<li><a class="mono" href={`mailto:${site.email}`}>{site.email}</a></li>
 		<li><a class="mono" href={site.github} target="_blank" rel="noopener">GitHub</a></li>
@@ -55,6 +51,7 @@
 	.colophon-text {
 		color: var(--muted);
 		font-size: var(--text-xs);
+		max-width: 36rem; /* wrap the signature line under ~80ch */
 		margin: 0;
 	}
 

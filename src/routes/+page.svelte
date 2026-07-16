@@ -33,7 +33,7 @@
 	<Hero />
 
 	<section id="projects" class="container-wide">
-		<SectionHeader number={site.sections.projects.number} title={site.sections.projects.title} />
+		<SectionHeader title={site.sections.projects.title} lede={site.sections.projects.lede} />
 		<div class="projects-list">
 			{#each projects as project, i (project.id)}
 				<FeaturedProject {project} index={i} />

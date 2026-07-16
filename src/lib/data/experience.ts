@@ -2,7 +2,7 @@ import type { ExperienceItem } from './types';
 
 export const experience: ExperienceItem[] = [
 	{
-		period: '2024 — now',
+		period: '2024 – now',
 		org: 'SmarterTravel',
 		role: 'Software Engineer',
 		detail: 'Backend and data platform work: Go, SvelteKit, Snowflake, dbt, Kafka, Kubernetes.',
@@ -16,7 +16,7 @@ export const experience: ExperienceItem[] = [
 		kind: 'freelance'
 	},
 	{
-		period: '2023 — 2024',
+		period: '2023 – 2024',
 		org: 'PTTEP',
 		role: 'Backend Developer (contract)',
 		detail: 'Go backend for the BIF environmental-DNA platform. Schema-first, tested against real Postgres.',
@@ -37,7 +37,7 @@ export const experience: ExperienceItem[] = [
 		kind: 'work'
 	},
 	{
-		period: '2020 — 2024',
+		period: '2020 – 2024',
 		org: 'Chulalongkorn University',
 		role: 'B.E. Computer Engineering',
 		detail: 'GPAX 3.87. Four years staffing the Games Research and Development club.',

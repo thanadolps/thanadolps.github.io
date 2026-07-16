@@ -6,11 +6,7 @@
 </script>
 
 <section id="playground" class="container-wide">
-	<SectionHeader
-		number={site.sections.playground.number}
-		title={site.sections.playground.title}
-		lede={site.sections.playground.lede}
-	/>
+	<SectionHeader title={site.sections.playground.title} lede={site.sections.playground.lede} />
 	<div class="playground-grid">
 		{#each demos as demo (demo.id)}
 			<DemoFacade {demo} />

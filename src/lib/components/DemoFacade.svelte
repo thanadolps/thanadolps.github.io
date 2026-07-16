@@ -21,9 +21,14 @@
 	</div>
 	<h3 class="demo-name">{demo.name}</h3>
 	<p class="demo-blurb">{demo.blurb}</p>
-	{#if demo.sourceUrl}
-		<a class="demo-source mono" href={demo.sourceUrl} target="_blank" rel="noopener">source ↗</a>
-	{/if}
+	<div class="demo-actions">
+		{#if demo.sourceUrl}
+			<a class="demo-source mono" href={demo.sourceUrl} target="_blank" rel="noopener">source ↗</a>
+		{/if}
+		{#if running}
+			<button type="button" class="demo-stop mono" onclick={() => (running = false)}>stop</button>
+		{/if}
+	</div>
 </div>
 
 <style>
@@ -85,15 +90,33 @@
 		margin: 0;
 	}
 
-	.demo-source {
-		display: inline-block;
+	.demo-actions {
+		display: flex;
+		gap: 1.25rem;
+		align-items: baseline;
 		margin-top: 0.5rem;
+	}
+
+	.demo-source {
 		color: var(--muted);
 		text-decoration: none;
 	}
 
 	.demo-source:hover,
 	.demo-source:focus-visible {
+		color: var(--accent);
+	}
+
+	.demo-stop {
+		padding: 0;
+		border: none;
+		background: none;
+		color: var(--muted);
+		cursor: pointer;
+	}
+
+	.demo-stop:hover,
+	.demo-stop:focus-visible {
 		color: var(--accent);
 	}
 </style>
